@@ -33,3 +33,12 @@ Route::get('/booking/gor/{id_gor}','BookingController@bookingPerGOR');
 Route::get('/booking/gor/{id_gor}/{hari}','BookingController@bookingPerHari');
 Route::get('/booking/gor/{id_gor}/{no_transaksi}','BookingController@bookingWithNoTransaksi');
 Route::post('/booking/gor/{id_gor}', 'BookingController@addTransaksi');
+
+
+//Auth
+Route::post('login', 'API\UserController@login');
+Route::post('register', 'API\UserController@register');
+
+Route::group(['middleware' => 'auth:api'], function(){
+    Route::post('details', 'API\UserController@details');
+});
