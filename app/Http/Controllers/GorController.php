@@ -22,6 +22,12 @@ class GorController extends Controller
         return response()->json($gor);
     }
 
+    public function kategori($id_kategori){
+        $gor = Gor::where('gors.id_kategori','=',$id_kategori)->get();
+
+        return response()->json($gor);
+    }
+
     public function location(Request $request){
         $location = $request->kota;
         $gor = Gor::where('kota', $location)->first();

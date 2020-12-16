@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/gor','GorController@all');
+Route::get('/gor/kategori/{id_kategori}','GorController@kategori');
 Route::get('/gor/{id_gor}','GorController@show');
 Route::get('/lokasi','GorController@location'); //diikuti query dengan var kota
 
