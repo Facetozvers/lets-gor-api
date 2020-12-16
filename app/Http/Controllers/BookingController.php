@@ -46,7 +46,7 @@ class BookingController extends Controller
         $booking->start_hour = $request->input('start_hour'); 
         $booking->finish_hour = $request->input('finish_hour'); 
         $booking->total = $request->input('total'); 
-        $booking->status = "Belum Lunas"; 
+        $booking->status = "Lunas"; 
         $booking->approval = "Pending";
         $booking->message = "Silahkan Lakukan Pembayaran";
         
