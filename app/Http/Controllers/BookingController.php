@@ -20,7 +20,7 @@ class BookingController extends Controller
     }
 
     public function bookingWithNoTransaksi($id_gor, $no_transaksi){
-        $bookings = GorBooking::where('id_gor', $id_gor)->where('no_transaksi', $no_transaksi)->first();
+        $bookings = GorBooking::where('id_gor','=', $id_gor)->where('id','=', $no_transaksi)->first();
         return response()->json($bookings);
     }
 
@@ -52,8 +52,8 @@ class BookingController extends Controller
         
     }
 
-    public function updateTransaksi($nomor_transaksi){
-        $booking = GorBooking::where('nomor_transaksi', $nomor_transaksi)->first();
+    public function updateTransaksi($id_gor, $no_transaksi){
+        $booking = GorBooking::where('id', $no_transaksi)->where('id_gor', $id_gor)->first();
         $booking->status = "Lunas";
         $booking->message = "Menunggu Approval dari GOR...";
         $booking->save();
@@ -66,10 +66,10 @@ class BookingController extends Controller
         }
     
     }
-    public function updateApproval($nomor_transaksi){
-        $booking = GorBooking::where('nomor_transaksi', $nomor_transaksi)->first();
+    public function updateApproval($id_gor, $no_transaksi, Request $request){
+        $booking = GorBooking::where('id', $no_transaksi)->where('id_gor', $id_gor)->first();
         $booking->approval = $request->input('approval');
-        $booking->message = "...";
+        $booking->message = $request->input('message');
         $booking->save();
 
         if($booking->save()){

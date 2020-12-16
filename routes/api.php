@@ -19,20 +19,11 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/gor','GorController@all');
-Route::post('/gor','GorController@add');
-Route::put('/gor','GorController@update');
-Route::delete('/gor','GorController@delete');
 Route::get('/gor/{id_gor}','GorController@show');
 Route::get('/lokasi','GorController@location'); //diikuti query dengan var kota
 
 Route::get('/jadwal/gor/{id_gor}','JadwalController@showJadwal');
 Route::get('/jadwal/gor/{id_gor}/{hari}','JadwalController@jadwalPerHari');
-Route::put('/jadwal/gor/{id_gor}/{hari}','JadwalController@updateJadwal');
-
-Route::get('/booking/gor/{id_gor}','BookingController@bookingPerGOR');
-Route::get('/booking/gor/{id_gor}/{hari}','BookingController@bookingPerHari');
-Route::get('/booking/gor/{id_gor}/{no_transaksi}','BookingController@bookingWithNoTransaksi');
-Route::post('/booking/gor/{id_gor}', 'BookingController@addTransaksi');
 
 
 //Auth
@@ -40,5 +31,18 @@ Route::post('login', 'API\UserController@login');
 Route::post('register', 'API\UserController@register');
 
 Route::group(['middleware' => 'auth:api'], function(){
-    Route::post('details', 'API\UserController@details');
+    //gor
+    Route::post('/gor','GorController@add');
+    Route::put('/gor','GorController@update');
+    Route::delete('/gor','GorController@delete');
+
+    Route::put('/jadwal/gor/{id_gor}/{hari}','JadwalController@updateJadwal');
+
+    Route::get('/booking/gor/{id_gor}','BookingController@bookingPerGOR');
+    Route::get('/booking/gor/{id_gor}/hari/{hari}','BookingController@bookingPerHari');
+    Route::get('/booking/gor/{id_gor}/nomor/{no_transaksi}','BookingController@bookingWithNoTransaksi');
+    Route::post('/booking/gor/{id_gor}/approval/{no_transaksi}','BookingController@updateApproval');
+    Route::post('/booking/gor/{id_gor}', 'BookingController@addTransaksi');
+
+
 });

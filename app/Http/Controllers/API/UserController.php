@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Validator;
+use App\Gor;
 
 class UserController extends Controller
 {
@@ -16,8 +17,9 @@ class UserController extends Controller
     public function login(){
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
             $user = Auth::user();
+            $gor = Gor::where('id_pemilik', $user->id)->first();
             $success['token'] =  $user->createToken('nApp')->accessToken;
-            return response()->json(['success' => $success, 'user' => $user], $this->successStatus);
+            return response()->json(['success' => $success, 'user' => $user, 'gor' => $gor], $this->successStatus);
         }
         else{
             return response()->json(['error'=>'Email / Password salah'], 401);
@@ -48,9 +50,10 @@ class UserController extends Controller
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
+        $gor = Gor::where('id_pemilik', $user->id)->first();
         $success['token'] =  $user->createToken('nApp')->accessToken;
 
-        return response()->json(['success' => $success, 'user' => $user], $this->successStatus);
+        return response()->json(['success' => $success, 'user' => $user, 'gor' => $gor], $this->successStatus);
     }
 
     public function details()
