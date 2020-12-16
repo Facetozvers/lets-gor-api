@@ -26,6 +26,7 @@ Route::get('/jadwal/gor/{id_gor}','JadwalController@showJadwal');
 Route::get('/jadwal/gor/{id_gor}/{hari}','JadwalController@jadwalPerHari');
 
 
+
 //Auth
 Route::post('login', 'API\UserController@login');
 Route::post('register', 'API\UserController@register');
@@ -44,5 +45,6 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('/booking/gor/{id_gor}/approval/{no_transaksi}','BookingController@updateApproval');
     Route::post('/booking/gor/{id_gor}', 'BookingController@addTransaksi');
 
+    Route::put('/jadwal/gor/{id_gor}/{hari}','JadwalController@updateJadwal');
 
 });

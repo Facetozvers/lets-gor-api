@@ -14,7 +14,10 @@ class GorController extends Controller
     }
 
     public function show($id_gor){
-        $gor = Gor::find($id_gor);
+        $gor = Gor::where('gors.id','=',$id_gor)
+        ->join('categories', 'categories.id', '=', 'gors.id_kategori')
+        ->select('categories.nama AS nama_kategori', 'gors.*')
+        ->first();
         return response()->json($gor);
     }
 

@@ -5,22 +5,32 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\GorBooking;
 use App\Gor;
+use Illuminate\Support\Facades\DB;
 
 //belum ditambahkan auth
 class BookingController extends Controller
 {
     public function bookingPerGOR($id_gor){
-        $bookings = GorBooking::where('id_gor', $id_gor)->get();
+        $bookings = GorBooking::where('id_gor','=', $id_gor)
+        ->join('users', 'users.id', '=', 'gor_bookings.user_id')
+        ->select('users.name', 'gor_bookings.*')
+        ->get();
         return response()->json($bookings);
     }
 
     public function bookingPerHari($id_gor, $hari){
-        $bookings = GorBooking::where('id_gor', $id_gor)->where('hari', $hari)->get();
+        $bookings = GorBooking::where('id_gor', '=', $id_gor)->where('hari', '=', $hari)
+        ->join('users', 'users.id', '=', 'gor_bookings.user_id')
+        ->select('users.name', 'gor_bookings.*')
+        ->get();
         return response()->json($bookings);
     }
 
     public function bookingWithNoTransaksi($id_gor, $no_transaksi){
-        $bookings = GorBooking::where('id_gor','=', $id_gor)->where('id','=', $no_transaksi)->first();
+        $bookings = GorBooking::where('id_gor','=', $id_gor)->where('gor_bookings.id','=', $no_transaksi)
+        ->join('users', 'users.id', '=', 'gor_bookings.user_id')
+        ->select('users.name', 'gor_bookings.*')
+        ->first();
         return response()->json($bookings);
     }
 
@@ -53,7 +63,10 @@ class BookingController extends Controller
     }
 
     public function updateTransaksi($id_gor, $no_transaksi){
-        $booking = GorBooking::where('id', $no_transaksi)->where('id_gor', $id_gor)->first();
+        $booking = GorBooking::where('gor_bookings.id', $no_transaksi)->where('id_gor', '=', $id_gor)
+        ->join('users', 'users.id', '=', 'gor_bookings.user_id')
+        ->select('users.name', 'gor_bookings.*')
+        ->first();
         $booking->status = "Lunas";
         $booking->message = "Menunggu Approval dari GOR...";
         $booking->save();
