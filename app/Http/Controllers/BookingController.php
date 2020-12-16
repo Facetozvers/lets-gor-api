@@ -38,7 +38,6 @@ class BookingController extends Controller
         $booking = new GorBooking;
         $data_gor = Gor::where('id', $id_gor)->first();
 
-        $booking->id_pemilik = $data_gor->id_pemilik;
         $booking->nomor_transaksi = NULL; //sementara
         $booking->id_gor = $id_gor; 
         $booking->user_id = $request->input('user_id'); 

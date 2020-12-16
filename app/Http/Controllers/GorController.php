@@ -16,7 +16,8 @@ class GorController extends Controller
     public function show($id_gor){
         $gor = Gor::where('gors.id','=',$id_gor)
         ->join('categories', 'categories.id', '=', 'gors.id_kategori')
-        ->select('categories.nama AS nama_kategori', 'gors.*')
+        ->join('users', 'users.id', '=' ,'gors.id_pemilik')
+        ->select('categories.nama AS nama_kategori', 'gors.*', 'users.name as nama_pemilik', 'users.noHP as noHP_pemilik')
         ->first();
         return response()->json($gor);
     }
